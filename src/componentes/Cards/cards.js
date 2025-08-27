@@ -31,6 +31,3 @@ export default function Cards({ titulo, texto, link, mostrarLink = false }) {
     </div>
   );
 }
-
-
-
