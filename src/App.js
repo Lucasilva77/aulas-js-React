@@ -1,48 +1,53 @@
-import React from "react";
+import { useState } from "react";
 
-export default function FilterExemplo() {
-  // 1 Lista de produtos com boolean
-  const lista = [
-    { id: 1, nome: "Notebook", preco: 3500, ativo: true },
-    { id: 2, nome: "Teclado", preco: 150, ativo: false },
-    { id: 3, nome: "Mouse", preco: 90, ativo: true },
-    { id: 4, nome: "Monitor", preco: 1200, ativo: false }
-  ];
+export default function App() {
+  const [valor, setValor] = useState("");
+  const mensagem = "Você conseguiu!";
 
-  // Filtra os inativos
-  const inativos = lista.filter(item => item.ativo === false);
-
-  // 2 Lista de frutas
-  const frutas = [
-    { id: 1, itens: ["abacaxi", "uva", "laranja"] },
-    { id: 2, itens: ["manga", "abacaxi", "banana"] },
-    { id: 3, itens: ["morango", "pera", "maçã"] }
-  ];
-
-  // Filtra os objetos que têm "abacaxi"
-  const comAbacaxi = frutas.filter(obj => obj.itens.includes("abacaxi"));
+  const handleChange = (e) => {
+    const digitado = Number(e.target.value); // transforma em número
+    const resultado = digitado + 4;
+    alert(`O resultado é: ${resultado}`);
+    setValor(e.target.value);
+  };
 
   return (
     <div style={{ padding: "20px", fontFamily: "Arial" }}>
-   <p>lição 1</p>
+      <h2>licao 1</h2>
+      <input
+        type="number"
+        value={valor}
+        onChange={handleChange}
+        placeholder="Digite um número"
+        style={{
+          padding: "8px",
+          border: "1px solid #ccc",
+          borderRadius: "6px",
+          marginBottom: "20px"
+        }}
+      />
 
-      <p>Produtos inativos</p>
-      <div>
-        {inativos.map(item => (
-          <p key={item.id}>
-            {item.nome} - R$ {item.preco}
-          </p>
-        ))}
-      </div>
-
-
-   <p>lição 2</p>
-      <p> Lista de frutas que possuem "abacaxi"</p>
-      <div>
-        {comAbacaxi.map(obj => (
-          <p key={obj.id}>{obj.itens.join(", ")}</p>
-        ))}
+      <h2>licao 2</h2>
+      <div
+        onClick={() => alert(mensagem)}
+        style={{
+          padding: "12px",
+          background: "lightblue",
+          cursor: "pointer",
+          width: "200px",
+          textAlign: "center",
+          borderRadius: "8px"
+        }}
+      >
+        Clique aqui
       </div>
     </div>
   );
 }
+
+
+//1 atvdd
+ //fzer um input com oncharge que a pessoa digitar ele vai somar com uma vareavel
+ //com valor 4 e vai retornar o alert com o resultado
+
+ //fazer onclick numa div com texto qualquer que retorne um alert o texto "voce conseguiu" de uma variavel
