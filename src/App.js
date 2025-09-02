@@ -54,4 +54,4 @@ export default function App() {
 
 
 // voce tera que fazer uma função que muda dois states que exibe na telaa numa mesma frase
-// voce tera que fazer u state como contador, * 4
+// voce tera que fazer um state como contador, * 4
