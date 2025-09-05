@@ -1,130 +1,136 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { Routes, Route, Link, useParams, useLocation } from "react-router-dom";
 
-export default function EscalacoesComNomes() {
-  const selecao2025 = [
-    "Alisson", "Bento", "Hugo Souza", "Alex Sandro", "Caio Henrique",
-    "Douglas Santos", "Fabrício Bruno", "Gabriel Magalhães", "Marquinhos", "Rickson Wesley", "Vanderson"
-  ];
-
-  const saoPaulo = [
-    "Rafael", "Rafinha", "Arboleda", "Diego Costa", "Wellington",
-    "Pablo Maia", "Alisson", "Rodrigo Nestor", "Luciano", "Calleri", "Wellington Rato"
-  ];
-
-  const flamengo = [
-    "Rossi", "Varela", "Fabrício Bruno", "Léo Pereira", "Ayrton Lucas",
-    "Pulgar", "Gerson", "Arrascaeta", "Everton Ribeiro", "Bruno Henrique", "Gabigol"
-  ];
-
-  const corinthians = [
-    "Cássio", "Fagner", "Gil", "Murillo", "Fábio Santos",
-    "Maycon", "Fausto Vera", "Renato Augusto", "Adson", "Yuri Alberto", "Roger Guedes"
-  ];
-
- 
-  const nomesGenericos = [
-    "Ana", "Bruno", "Carlos", "Daniela", "Eduardo", 
-    "Fernanda", "Gustavo", "Helena", "Igor", "Julia", 
-    "Kleber", "Larissa"
-  ];
-
-  const [jogadores, setJogadores] = useState([]);
-  const [timeAtual, setTimeAtual] = useState("selecao");
-
-  useEffect(() => {
-    switch (timeAtual) {
-      case "selecao":
-        setJogadores(selecao2025);
-        break;
-      case "saoPaulo":
-        setJogadores(saoPaulo);
-        break;
-      case "flamengo":
-        setJogadores(flamengo);
-        break;
-      case "corinthians":
-        setJogadores(corinthians);
-        break;
-      default:
-        setJogadores([]);
-    }
-  }, [timeAtual]);
-
-  const sortear10Itens = (lista) => {
-    const copia = [...lista];
-    const resultado = [];
-    for (let i = 0; i < 10 && copia.length > 0; i++) {
-      const indice = Math.floor(Math.random() * copia.length);
-      resultado.push(copia[indice]);
-      copia.splice(indice, 1);
-    }
-    return resultado;
-  };
-
-  const sortear10NomesGenericos = () => {
-    const primeiroSorteio = sortear10Itens(nomesGenericos);
-    setJogadores(primeiroSorteio);
-
-    setTimeout(() => {
-      let segundoSorteio;
-      do {
-        segundoSorteio = sortear10Itens(nomesGenericos);
-      } while (segundoSorteio.join() === primeiroSorteio.join());
-
-      setJogadores(segundoSorteio);
-    }, 200);
-  };
-
+// Página inicial
+function Home() {
   return (
-    <div className="p-6 max-w-lg mx-auto">
-      <p className="text-2xl font-bold mb-4">Escalação - {timeAtual}</p>
-
-      <div className="flex flex-wrap gap-2 mb-4">
-        <button
-          className="px-4 py-2 border rounded hover:bg-gray-100 transition"
-          onClick={() => setTimeAtual("selecao")}
-        >
-          Seleção 
-        </button>
-        <button
-          className="px-4 py-2 border rounded hover:bg-gray-100 transition"
-          onClick={() => setTimeAtual("saoPaulo")}
-        >
-          São Paulo
-        </button>
-        <button
-          className="px-4 py-2 border rounded hover:bg-gray-100 transition"
-          onClick={() => setTimeAtual("flamengo")}
-        >
-          Flamengo
-        </button>
-        <button
-          className="px-4 py-2 border rounded hover:bg-gray-100 transition"
-          onClick={() => setTimeAtual("corinthians")}
-        >
-          Corinthians
-        </button>
+    <div className="p-4">
+      <h1>Página Inicial</h1>
+      <div>
+        <p>
+          <Link to="/split/1">Ir para Split</Link>
+        </p>
+        <p>
+          <Link to="/query?opcao=1">Ir para Query String</Link>
+        </p>
       </div>
-
-      <div className="list-disc pl-5 space-y-1">
-        {jogadores.map((j, i) => (
-          <p key={i}>{j}</p>
-        ))}
-      </div>
-
-      <button
-        onClick={sortear10NomesGenericos}
-        className="mt-4 px-4 py-2 border rounded hover:bg-gray-100 transition"
-      >
-        Sortear 10 nomes 2x
-      </button>
     </div>
   );
 }
 
+// Página Split (usa useParams + useEffect)
+function SplitPage() {
+  const { opcao } = useParams();
+  const [conteudo, setConteudo] = useState("");
 
+  useEffect(() => {
+    switch (opcao) {
+      case "1":
+        setConteudo("Você escolheu a opção 1 via Split ");
+        break;
+      case "2":
+        setConteudo("Você escolheu a opção 2 via Split ");
+        break;
+      case "3":
+        setConteudo("Você escolheu a opção 3 via Split ");
+        break;
+      default:
+        setConteudo("Opção inválida!");
+    }
+  }, [opcao]); // roda toda vez que o parâmetro mudar
 
-// fazer aparecer a lista da seleção brasileira, so que voçe tera 3 botoes para trocar
-// os nomes da seleção brasileira, para os jogadores do sao paulo, do flamengo e do 
-//corinthians, 11 jogadores.
-//uma função que mude na tela 10 nomes diferentes, ao clicar em um botão,muda 2 vezes
+  return (
+    <div className="p-4">
+      <h2>Página Split</h2>
+      <p>{conteudo}</p>
+      <div>
+        <div>
+          <Link to="/split/1">Opção 1</Link> |{" "}
+          <Link to="/split/2">Opção 2</Link> |{" "}
+          <Link to="/split/3">Opção 3</Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Página Query String (usa useLocation + useEffect)
+function QueryPage() {
+  const location = useLocation();
+  const [conteudo, setConteudo] = useState("");
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const opcao = params.get("opcao");
+
+    switch (opcao) {
+      case "1":
+        setConteudo("Você escolheu a opção 1 via Query String ");
+        break;
+      case "2":
+        setConteudo("Você escolheu a opção 2 via Query String ");
+        break;
+      case "3":
+        setConteudo("Você escolheu a opção 3 via Query String ");
+        break;
+      case "4":
+        setConteudo("Você escolheu a opção 4 via Query String ");
+        break;
+      case "5":
+        setConteudo("Você escolheu a opção 5 via Query String ");
+        break;
+      default:
+        setConteudo("Nenhuma opção válida!");
+    }
+  }, [location.search]); // roda toda vez que a query string mudar
+
+  return (
+    <div className="p-4">
+      <h2>Página Query String</h2>
+      <p>{conteudo}</p>
+      <nav>
+        <Link to="https://www.youtube.com/watch?v=_hlyCqz5gz0&list=PLn6DtETZdPVbe9BHb_CyHx30XKrIpBJYH&index=11">
+          Opção 1
+        </Link>{" "}
+        |{" "}
+        <Link to="https://www.youtube.com/watch?v=Yg2yrLdzysQ&list=PLn6DtETZdPVbe9BHb_CyHx30XKrIpBJYH&index=12">
+          Opção 2
+        </Link>{" "}
+        |{" "}
+        <Link to="https://www.youtube.com/watch?v=JDaZbbAUhEM&list=PLn6DtETZdPVbe9BHb_CyHx30XKrIpBJYH&index=13">
+          Opção 3
+        </Link>{" "}
+        |{" "}
+        <Link to="https://www.youtube.com/watch?v=6UXllHJeWLg&list=PLn6DtETZdPVbe9BHb_CyHx30XKrIpBJYH&index=14">
+          Opção 4
+        </Link>{" "}
+        |{" "}
+        <Link to="https://www.youtube.com/watch?v=ZqWnS_qGSbw&list=PLn6DtETZdPVbe9BHb_CyHx30XKrIpBJYH&index=15">
+          Opção 5
+        </Link>
+      </nav>
+    </div>
+  );
+}
+
+// App principal
+export default function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/split/:opcao" element={<SplitPage />} />
+      <Route path="/query" element={<QueryPage />} />
+    </Routes>
+  );
+}
+
+//primeira pagina colocar os 2 links mandando para duas PAGINAS DIFERENTES, uma voce vai
+//tratar a condiÇâo do split, e na outra voce vai tratar a condiçao de query string
+
+//SPLIT
+// primeiro exercicio voce vai mostrar um link que tenha 3 opçoes dee parametro, voce vai
+// exibir um conteudo diferente para cada caso
+
+//QUERY STRING
+// sengundo caso voçe vai montar um segundo link com 5 opçoes de parametro,voçe vai exibir
+// um conteudo proprio, condizente com os 5 parametros
