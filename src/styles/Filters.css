@@ -1,0 +1,28 @@
+.filters {
+    width: 316px;
+    padding: 3%;
+    font-weight: 300;
+    font-family: "Inter";
+    margin-bottom: 10%;
+}
+
+.titulo_filter {
+   border-bottom: #34AC40;
+   border-bottom: 2px solid #34AC40;
+   font-weight: 700;
+   font-size: 26px;
+}
+
+.filters_tipo {
+   border-bottom: 2px solid #f97316;
+   padding-bottom: 10px;
+}
+
+.filters h3 {
+    color: #f97316;
+    margin-top: 10px;
+    font-weight: 700;
+    font-size: 20px;
+}
+
+
